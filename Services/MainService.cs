@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 
 namespace ApplicationTemplate.Services;
 
@@ -16,26 +17,32 @@ public class MainService : IMainService
 
     public void Invoke()
     {
-        string choice;
-        do
-        {
-            Console.WriteLine("1) Add Movie");
-            Console.WriteLine("2) Display All Movies");
-            Console.WriteLine("X) Quit");
-            choice = Console.ReadLine();
+        bool exit = false;
+        int choice = 0;
+       
+        Console.WriteLine("Welcome to Blockbuster!");
+        JsonMovie.ConvertMovies();                         //I spent a lot of time on the Csv project I didn't want to give up on it so I figured out how to convert the csv file to json
+        do                                                 //I did cut it down to only 10 movies so when you read and write it doesn't scroll scroll scroll
+                                                           //I did have some trouble with the interfacing and droped it, I understand it somewhat but the syntaxing of thing are still new to me
+        {                                                  //Everything is broken out more modular but the plug and play is still a little fuzzy because I'm still a little stuck on grasping static and non static methods
+            choice = JsonMovie.JsonMovieMenu();            //It works so I keep running with it but I know its going to hit a wall soon.
 
-            // Logic would need to exist to validate inputs and data prior to writing to the file
-            // You would need to decide where this logic would reside.
-            // Is it part of the FileService or some other service?
-            if (choice == "1")
+            if (choice == 1)
             {
-                _fileService.Write();
+                
+                JsonMovie.Write();
             }
-            else if (choice == "2")
+            else if (choice == 2)
             {
-                _fileService.Read();
+                JsonMovie.Read();
             }
-        }
-        while (choice != "X");
+            else if (choice == 3)
+            {
+                exit = true;
+            }
+
+        } while (!exit);
+        Console.WriteLine();
+        Console.WriteLine("Thank you for visiting Blockbuster, Good Bye!");
     }
 }
